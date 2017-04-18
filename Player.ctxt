@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Player()
+comment1.params=
+comment1.target=Move\ declareMove()
+comment1.text=\r\n\ @returns\ user's\ move\r\n
+comment2.params=
+comment2.target=void\ addWin()
+comment3.params=
+comment3.target=Move\ getMove()
+numComments=4
