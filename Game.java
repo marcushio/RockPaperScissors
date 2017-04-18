@@ -10,6 +10,7 @@ public class Game {
     private Player player2; 
     private Result result; 
     private Player currentPlayer; 
+    private Player winner; 
     private int winsNeeded; 
     private boolean running; 
     
@@ -21,9 +22,10 @@ public class Game {
         currentPlayer = player1; 
         inputGet = new Scanner(System.in); 
         running = true; 
+        winner = null; 
     }
     
-    private void run(){
+    public void run(){
        printWelcome(); 
        setWinsNeeded(); 
        do{
@@ -32,13 +34,14 @@ public class Game {
         System.out.println(currentPlayer.getMove()); 
         checkWinner(player1.getMove(), player2.getMove()); 
         checkSeries(); 
-        changePlayer();
-        printResult(); 
-        
-       } while (running);
+        printResult();
+        if (running){
+            changePlayer();
+        }     
+       } while(running);
     }
     
-    private int setWinsNeeded(){
+    private void setWinsNeeded(){
         System.out.println(Prompts.WINSNEEDED); 
         winsNeeded = Integer.parseInt(inputGet.nextLine());
     }
@@ -96,14 +99,17 @@ public class Game {
             }
         }
         if (p1Move == null || p2Move == null){
-            return null; 
+            result = null ; 
         }
+        return result; 
     }
     
     private Player checkSeries(){
         if (currentPlayer.getWinCount() >= winsNeeded){
             running = false; 
+            currentPlayer = winner; 
         }
+        return winner; 
     }
         
     private void printResult(){
