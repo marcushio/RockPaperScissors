@@ -9,28 +9,36 @@ import java.util.Scanner;
  */
 public class Player {
     private int winCount; //how many times they've won
-    private String userMove; //what the user types after prompted for a move
+    private String stringMove; //what the user types after prompted for a move
     private Move move; //the move based on what user typed
-    
+    private String name; 
     private Scanner moveGetter;
     
-    public Player(){
+    public Player(String name){
         moveGetter = new Scanner(System.in); 
+        this.name = name; 
         winCount = 0; 
     }
     
     /**
      * @returns user's move
      */
-    private Move declareMove(){
-        System.out.println(Prompts.MOVE); 
-        userMove = moveGetter.nextLine(); 
-        switch (userMove){
+    public Move declareMove(){
+        
+        stringMove = moveGetter.nextLine(); 
+        switch (stringMove){
             case "rock" : move = Move.ROCK; 
+                          break; 
             case "paper" : move = Move.PAPER; 
+                           break; 
             case "scissors" : move = Move.SCISSORS; 
+                              break; 
         }
         return move; 
+    }
+    
+    public String toString(){
+        return name; 
     }
     
     public void addWin(){

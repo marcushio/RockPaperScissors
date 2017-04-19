@@ -2,14 +2,14 @@ import java.util.Scanner;
 /**
  * Write a description of Game here.
  * 
- * @author (your name) 
+ * @author (Marcus Trujillo) 
  * @version (a version number or a date)
  */
 public class Game {
     private Player player1; 
     private Player player2; 
     private Result result; 
-    private Player currentPlayer; 
+    private Player currentPlayer;
     private Player winner; 
     private int winsNeeded; 
     private boolean running; 
@@ -17,8 +17,8 @@ public class Game {
     private Scanner inputGet; 
     
     public Game(){
-        player1 = new Player(); 
-        player2 = new Player(); 
+        player1 = new Player("player1"); 
+        player2 = new Player("player2"); 
         currentPlayer = player1; 
         inputGet = new Scanner(System.in); 
         running = true; 
@@ -29,32 +29,34 @@ public class Game {
        printWelcome(); 
        setWinsNeeded(); 
        do{
-        currentPlayer.getMove(); 
+        System.out.print(Prompts.MOVE + " "); 
+        System.out.println(currentPlayer.toString()); 
+        currentPlayer.declareMove(); 
         System.out.print(Prompts.CHOICE); 
         System.out.println(currentPlayer.getMove()); 
-        checkWinner(player1.getMove(), player2.getMove()); 
-        checkSeries(); 
-        printResult();
-        if (running){
-            changePlayer();
-        }     
+        if (player1.getMove() != null && player2.getMove() != null){
+           checkWinner(player1.getMove(), player2.getMove()); 
+           checkSeries(); 
+           printResult();
+        } 
+        changePlayer();     
        } while(running);
     }
     
     private void setWinsNeeded(){
         System.out.println(Prompts.WINSNEEDED); 
         winsNeeded = Integer.parseInt(inputGet.nextLine());
+        
     }
     
-    private Player getCurrentPlayer(){
+    public Player getCurrentPlayer(){
         return currentPlayer; 
     }
     
-    private void changePlayer(){
+    public void changePlayer(){
         if (currentPlayer == player1){
             currentPlayer = player2;
-        }
-        if (currentPlayer == player2){
+        } else {
             currentPlayer = player1; 
         }
     }
@@ -73,34 +75,45 @@ public class Game {
     private Result checkWinner(Move p1Move, Move p2Move){
         if (p1Move == Move.ROCK){
             switch (p2Move){
-                case ROCK : result = Result.DRAW; 
+                case ROCK : result = Result.DRAW;
+                            break; 
                 case PAPER : result = Result.P2WIN; 
                              player2.addWin(); 
+                             break; 
                 case SCISSORS : result = Result.P1WIN; 
                                 player1.addWin(); 
+                                break; 
             }
         }
         if (p1Move == Move.PAPER){
             switch (p2Move){
                 case ROCK: result = Result.P1WIN; 
                                     player1.addWin(); 
+                                    break; 
                 case PAPER: result = Result.DRAW;   
+                                     break; 
                 case SCISSORS: result = Result.P2WIN;
                                         player2.addWin(); 
+                                        break; 
             }
         }
         if (p1Move == Move.SCISSORS){
             switch (p2Move) {
                 case ROCK: result = Result.P2WIN;  
                                     player2.addWin(); 
+                                    break; 
                 case PAPER: result = Result.P1WIN; 
                                      player1.addWin(); 
+                                     break; 
                 case SCISSORS: result = Result.DRAW;  
+                                        break; 
             }
         }
         if (p1Move == null || p2Move == null){
             result = null ; 
         }
+        p1Move = null; 
+        p2Move = null; 
         return result; 
     }
     
